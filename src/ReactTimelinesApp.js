@@ -20,8 +20,8 @@ export default class ReactTimelinesApp extends Component {
                 <h1 className="title">React Timelines</h1>
                 <ReactTimelines
                     scale={{
-                        start: `${START_YEAR}`,
-                        end: `${START_YEAR + NUM_OF_YEARS}`,
+                        start: '2020',
+                        end: '2023',
                         zoom,
                         zoomMin: MIN_ZOOM,
                         zoomMax: MAX_ZOOM,

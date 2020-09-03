@@ -16,7 +16,7 @@ export default class ReactTimelines extends Component {
 
         this.state = {
             open: false,
-            zoom: 2,
+            zoom: this.props.scale.zoom,
             tracksById,
             tracks: Object.values(tracksById),
         }
@@ -52,18 +52,17 @@ export default class ReactTimelines extends Component {
     }
 
     render() {
-        const {open, tracks} = this.state;
+        const {open, zoom, tracks} = this.state;
         const {scale} = this.props;
         const objScale = {
             start: new Date(scale.start),
             end: new Date(scale.end),
-            zoom: scale.zoom,
+            zoom: zoom,
             zoomMin: scale.zoomMin,
             zoomMax: scale.zoomMax,
         };
 
-        return <div className="time-line-wrapper">
-            <Timeline
+        return <Timeline
             scale={objScale}
             isOpen={open}
             toggleOpen={this.handleToggleOpen}
@@ -80,6 +79,5 @@ export default class ReactTimelines extends Component {
             enableSticky
             scrollToNow
         />
-        </div>
     }
 }
