@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Timeline from 'react-timelines';
-import 'react-timelines/lib/css/style.css'
-import {dataTrack } from './constants'
-import {buildTimebar, parseDataTracks} from './builders'
-const MIN_ZOOM = 2
-const MAX_ZOOM = 20
+import 'react-timelines/lib/css/style.css';
+import './app.css';
+import {buildTimebar, parseDataTracks} from './builders';
 
-const timebar = buildTimebar()
+const MIN_ZOOM = 2;
+const MAX_ZOOM = 20;
+
+const timebar = buildTimebar();
 
 export default class ReactTimelines extends Component {
     constructor(props) {
         super(props);
-        const tracksById = parseDataTracks(dataTrack);
+        const tracksById = parseDataTracks(this.props.tracks);
 
         this.state = {
             open: false,
@@ -22,15 +23,15 @@ export default class ReactTimelines extends Component {
     }
 
     handleToggleOpen = () => {
-        this.setState(({ open }) => ({ open: !open }));
+        this.setState(({open}) => ({open: !open}));
     }
 
     handleZoomIn = () => {
-        this.setState(({ zoom }) => ({ zoom: Math.min(zoom + 1, MAX_ZOOM) }));
+        this.setState(({zoom}) => ({zoom: Math.min(zoom + 1, MAX_ZOOM)}));
     }
 
     handleZoomOut = () => {
-        this.setState(({ zoom }) => ({ zoom: Math.max(zoom - 1, MIN_ZOOM) }));
+        this.setState(({zoom}) => ({zoom: Math.max(zoom - 1, MIN_ZOOM)}));
     }
 
     handleToggleTrackOpen = track => {
@@ -51,28 +52,34 @@ export default class ReactTimelines extends Component {
     }
 
     render() {
-        const { open, tracks } = this.state;
-        return (
-            <div className="app-container">
-                <h1 className="title">React Timelines</h1>
-                <Timeline
-                    scale = {this.props.scale}
-                    isOpen={open}
-                    toggleOpen={this.handleToggleOpen}
-                    zoomIn={this.handleZoomIn}
-                    zoomOut={this.handleZoomOut}
-                    clickElement={this.props.clickElement}
-                    clickTrackButton={track => {
-                        alert(JSON.stringify(track))
-                    }}
-                    timebar={timebar}
-                    tracks={tracks}
-                    now={this.props.now}
-                    toggleTrackOpen={this.handleToggleTrackOpen}
-                    enableSticky
-                    scrollToNow
-                />
-            </div>
-        );
+        const {open, tracks} = this.state;
+        const {scale} = this.props;
+        const objScale = {
+            start: new Date(scale.start),
+            end: new Date(scale.end),
+            zoom: scale.zoom,
+            zoomMin: scale.zoomMin,
+            zoomMax: scale.zoomMax,
+        };
+
+        return <div className="time-line-wrapper">
+            <Timeline
+            scale={objScale}
+            isOpen={open}
+            toggleOpen={this.handleToggleOpen}
+            zoomIn={this.handleZoomIn}
+            zoomOut={this.handleZoomOut}
+            clickElement={this.props.clickElement}
+            clickTrackButton={track => {
+                alert(JSON.stringify(track))
+            }}
+            timebar={timebar}
+            tracks={tracks}
+            now={new Date(this.props.now)}
+            toggleTrackOpen={this.handleToggleTrackOpen}
+            enableSticky
+            scrollToNow
+        />
+        </div>
     }
 }

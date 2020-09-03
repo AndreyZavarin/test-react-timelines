@@ -42,6 +42,21 @@ export const buildMonthCells = () => {
     return v
 }
 
+// export const buildDaysCells = () => {
+//     const v = [];
+//     for (let i = 0; i < MONTHS_PER_YEAR * NUM_OF_YEARS; i += 1) {
+//         const startMonth = i;
+//         const start = addMonthsToYearAsDate(START_YEAR, startMonth);
+//         const end = addMonthsToYearAsDate(START_YEAR, startMonth + 1);
+//         v.push({
+//             id: `m${startMonth}`,
+//             title: MONTH_NAMES[i % 12],
+//             start,
+//             end,
+//         })
+//     }
+//     return v
+// }
 export const buildTimebar = () => [
     {
         id: 'quarters',
@@ -51,11 +66,18 @@ export const buildTimebar = () => [
     },
     {
         id: 'months',
-        title: 'Месяца',
+        title: 'Месяцы',
         cells: buildMonthCells(),
         useAsGrid: true,
         style: {},
     },
+    // {
+    //     id: 'days',
+    //     title: 'Дни',
+    //     cells: buildDaysCells(),
+    //     useAsGrid: true,
+    //     style: {},
+    // },
 ]
 
 export const parseDataTracks = dataTrack => {
