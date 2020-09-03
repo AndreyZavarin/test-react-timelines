@@ -4,24 +4,18 @@ import {
     MONTH_NAMES,
     MONTHS_PER_YEAR,
     QUARTERS_PER_YEAR,
-    MONTHS_PER_QUARTER,
-    NUM_OF_MONTHS,
-    MAX_TRACK_START_GAP,
-    MAX_ELEMENT_GAP,
-    MAX_MONTH_SPAN,
-    MIN_MONTH_SPAN,
-    MAX_NUM_OF_SUBTRACKS
+    MONTHS_PER_QUARTER
 } from './constants'
 
-import {fill, hexToRgb, colourIsLight, addMonthsToYear, addMonthsToYearAsDate, nextColor, randomTitle} from './utils'
+import {addMonthsToYear, addMonthsToYearAsDate} from './utils'
 
 export const buildQuarterCells = () => {
     const v = []
     for (let i = 0; i < QUARTERS_PER_YEAR * NUM_OF_YEARS; i += 1) {
-        const quarter = (i % 4) + 1
-        const startMonth = i * MONTHS_PER_QUARTER
-        const s = addMonthsToYear(START_YEAR, startMonth)
-        const e = addMonthsToYear(START_YEAR, startMonth + MONTHS_PER_QUARTER)
+        const quarter = (i % 4) + 1;
+        const startMonth = i * MONTHS_PER_QUARTER;
+        const s = addMonthsToYear(START_YEAR, startMonth);
+        const e = addMonthsToYear(START_YEAR, startMonth + MONTHS_PER_QUARTER);
         v.push({
             id: `${s.year}-q${quarter}`,
             title: `${quarter} квартал ${s.year} г.`,
@@ -33,11 +27,11 @@ export const buildQuarterCells = () => {
 }
 
 export const buildMonthCells = () => {
-    const v = []
+    const v = [];
     for (let i = 0; i < MONTHS_PER_YEAR * NUM_OF_YEARS; i += 1) {
-        const startMonth = i
-        const start = addMonthsToYearAsDate(START_YEAR, startMonth)
-        const end = addMonthsToYearAsDate(START_YEAR, startMonth + 1)
+        const startMonth = i;
+        const start = addMonthsToYearAsDate(START_YEAR, startMonth);
+        const end = addMonthsToYearAsDate(START_YEAR, startMonth + 1);
         v.push({
             id: `m${startMonth}`,
             title: MONTH_NAMES[i % 12],
@@ -64,76 +58,6 @@ export const buildTimebar = () => [
     },
 ]
 
-export const buildElement = ({trackId, start, end, i}) => {
-    const bgColor = nextColor()
-    const color = colourIsLight(...hexToRgb(bgColor)) ? '#000000' : '#ffffff'
-    return {
-        id: `t-${trackId}-el-${i}`,
-        title: randomTitle(),
-        start,
-        end,
-        style: {
-            backgroundColor: `#${bgColor}`,
-            color,
-            borderRadius: '4px',
-            boxShadow: '1px 1px 0px rgba(0, 0, 0, 0.25)',
-            textTransform: 'capitalize',
-        },
-    }
-}
-
-export const buildTrackStartGap = () => Math.floor(Math.random() * MAX_TRACK_START_GAP)
-export const buildElementGap = () => Math.floor(Math.random() * MAX_ELEMENT_GAP)
-
-export const buildElements = trackId => {
-    const v = []
-    let i = 1
-    let month = buildTrackStartGap()
-
-    while (month < NUM_OF_MONTHS) {
-        let monthSpan = Math.floor(Math.random() * (MAX_MONTH_SPAN - (MIN_MONTH_SPAN - 1))) + MIN_MONTH_SPAN
-
-        if (month + monthSpan > NUM_OF_MONTHS) {
-            monthSpan = NUM_OF_MONTHS - month
-        }
-
-        const start = addMonthsToYearAsDate(START_YEAR, month)
-        const end = addMonthsToYearAsDate(START_YEAR, month + monthSpan)
-        v.push(
-            buildElement({
-                trackId,
-                start,
-                end,
-                i,
-            })
-        )
-        const gap = buildElementGap()
-        month += monthSpan + gap
-        i += 1
-    }
-
-    return v
-}
-
-export const buildSubtrack = (trackId, subtrackId) => ({
-    id: `track-${trackId}-${subtrackId}`,
-    title: `Subtrack ${subtrackId}`,
-    elements: buildElements(subtrackId),
-})
-
-export const buildTrack = trackId => {
-    const tracks = fill(Math.floor(Math.random() * MAX_NUM_OF_SUBTRACKS) + 1).map(i => buildSubtrack(trackId, i + 1))
-    return {
-        id: `track-${trackId}`,
-        title: `Track ${trackId}`,
-        elements: buildElements(trackId),
-        tracks,
-        isOpen: false,
-    }
-}
-
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
 export const parseDataTracks = dataTrack => {
     if(!dataTrack || dataTrack.length === 0) {
         return {}
@@ -145,8 +69,7 @@ export const parseDataTracks = dataTrack => {
     if(Object.keys(mapDataTrack).length === 0) {
         return {}
     }
-    console.log('mapDataTrack', mapDataTrack)
-    return mapDataTrack
+    return mapDataTrack;
 }
 
 export const newBuildTrack = track => {
@@ -167,11 +90,8 @@ export const newBuildElements = (trackId, elements) => {
 }
 
 export const newBuildElement = (trackId, el, idx) => {
-    let dateFromCalendar = el.dateFrom.calendar;
-    let dateToCalendar = el.dateTo.calendar;
-
-    let start = new Date(`${dateFromCalendar.dayOfMonth}/${dateFromCalendar.month}/${dateFromCalendar.year}`);
-    let end = new Date(`${dateToCalendar.dayOfMonth}/${dateToCalendar.month}/${dateToCalendar.year}`);
+    let start = new Date(el.dateFrom);
+    let end = new Date(el.dateTo);
 
     return {
         id: `${trackId}-el-${idx}`,
@@ -187,7 +107,6 @@ export const newBuildElement = (trackId, el, idx) => {
         },
     }
 }
-
 
 export const newBuildSubtrack = (trackId, subtrackId, subtrack) => ({
     id: subtrackId,

@@ -5,7 +5,7 @@ let node_modules_dir = path.resolve(__dirname, 'node_modules');
 module.exports = {
   resolve: {
     modules: [
-      "node_modules"
+      'node_modules'
     ],
     extensions: ['.js', '.jsx', '.js', '.css'],
     mainFields: [
@@ -21,7 +21,7 @@ module.exports = {
   entry: ['./src'],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'react-timelines-app.js',
+    filename: 'react-timelines.js',
     publicPath: '/dist/',
     libraryTarget: 'amd'
   },

@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ReactTimelines from './ReactTimelines';
+import ReactTimelinesApp from './ReactTimelinesApp';
 
-ReactDOM.render(<ReactTimelines />, document.getElementById('root'));
-// export Timeline from 'react-timelines';
-// export Timeline from './App';
+ReactDOM.render(<ReactTimelinesApp />, document.getElementById('root'));
+// Раскоментировать для сборки
+// export ReactTimelinesApp from './ReactTimelinesApp';
 
