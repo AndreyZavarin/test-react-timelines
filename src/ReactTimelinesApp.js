@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {NUM_OF_YEARS, START_YEAR} from './constants';
 import ReactTimelines from './ReactTimelines';
 import {dataTrack} from './constants'
 
@@ -27,7 +26,7 @@ export default class ReactTimelinesApp extends Component {
                         zoomMax: MAX_ZOOM,
                     }}
                     clickElement={(element) => alert(`Clicked element\n${JSON.stringify(element, null, 2)}`)}
-                    now={'01/01/2021'}
+                    now={'2021-09-04'}
                     tracks={dataTrack}
                 />
             </div>
