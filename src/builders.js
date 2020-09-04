@@ -74,13 +74,16 @@ export const parseDataTracks = dataTrack => {
 
 export const newBuildTrack = track => {
     const tracks = track.childs.map((subtrack, idx) => newBuildSubtrack(track.id, idx + 1, subtrack));
-    return {
+    let obgBuildTrack = {
         id: track.id,
         title: track.title,
-        elements: newBuildElements(track.id, track.elements),
-        tracks,
-        isOpen: false,
+        elements: newBuildElements(track.id, track.elements)
     }
+    if(tracks.length > 0){
+        obgBuildTrack.isOpen = false;
+        obgBuildTrack.tracks = tracks
+    }
+    return obgBuildTrack;
 }
 
 export const newBuildElements = (trackId, elements) => {
